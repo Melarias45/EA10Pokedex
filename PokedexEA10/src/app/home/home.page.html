@@ -1,0 +1,32 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>
+      EA10 Melisa Arias Pokedex
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+
+  <!--Cuando le de click que lleve a la url publica de api pokemon, de cada uno, que muestre todas sus caracteristicas-->
+  <!--Primero que se muestren los nombres, al darle click a cada uno (son componentes card), se muestren -->
+
+  <ion-content class="ion-padding">
+    <ng-container *ngIf="listPokemon; else loading">
+
+      <ion-card *ngFor=" let item of listPokemon; index as i" (click)="handleDetail(item.url)">
+
+        <ion-card-header>
+          <ion-card-title>{{item.name}}</ion-card-title>
+        </ion-card-header>
+
+      </ion-card>
+
+    </ng-container>
+  </ion-content>
+
+  <ng-template #loading>
+    <ion-spinner name="crescent"></ion-spinner>
+  </ng-template>
+
+</ion-content>
