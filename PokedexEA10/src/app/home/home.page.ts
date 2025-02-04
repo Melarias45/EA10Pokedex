@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { PokeApiService } from '../poke-api.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -11,7 +12,7 @@ export class HomePage {
 
   listPokemon: any = [];
 
-  constructor(private pokeService: PokeApiService) { }
+  constructor(private pokeService: PokeApiService, private router: Router) { }
 
   ngOnInit() {
     this.pokeService.getListPokemon().subscribe((data) => {
@@ -20,7 +21,22 @@ export class HomePage {
     });
   }
 
-  handleDetail(url: any) {
-    console.log(url);
+  obtenerIdDeUrl(url: any) {
+    const regex = /\/(\d+)\//;
+    const match = url.match(regex);
+
+    if (match) {
+      return match[1];
+    } else {
+      return "No se encontro un ID valido en la URL";
+    }
   }
+
+  handleDetail(url: any) {
+    const pokemonId = this.obtenerIdDeUrl(url);
+    console.log(url);
+    //this.pokeService.getDetailPokemon(url).subscribe((data) => { });
+    this.router.navigateByUrl(`/detail/${pokemonId}`);
+  }
+
 }
