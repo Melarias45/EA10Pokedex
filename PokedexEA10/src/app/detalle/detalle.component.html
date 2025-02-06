@@ -1,3 +1,19 @@
-<p>
-  detalle works!
-</p>
+<ion-header>
+  <ion-toolbar>
+    <ion-title style="color: cyan;">{{ pokemon?.name | titlecase }}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="detail-container">
+    <ion-img [src]="pokemon?.sprites?.front_default" alt="{{ pokemon?.name }}" style="height: 200px; width: auto;"></ion-img>
+    <p><strong>Altura:</strong> {{ pokemon?.height }}</p>
+    <p><strong>Peso:</strong> {{ pokemon?.weight }}</p>
+    <p><strong>Habilidades:</strong></p>
+    <ul>
+      <li *ngFor="let ability of pokemon?.abilities">
+        {{ ability.ability.name }}
+      </li>
+    </ul>
+  </div>
+</ion-content>

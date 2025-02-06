@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { PokeApiService } from '../poke-api.service';
 import { Router } from '@angular/router';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 @Component({
   selector: 'app-home',
@@ -10,33 +12,30 @@ import { Router } from '@angular/router';
 })
 export class HomePage {
 
-  listPokemon: any = [];
+  listPokemones: any = [];
 
   constructor(private pokeService: PokeApiService, private router: Router) { }
 
   ngOnInit() {
-    this.pokeService.getListPokemon().subscribe((data) => {
-      this.listPokemon = data.results
+    this.pokeService.getListPokemones().subscribe((data) => {
+      this.listPokemones = data.results
       console.log(data.results)
     });
   }
 
-  obtenerIdDeUrl(url: any) {
-    const regex = /\/(\d+)\//;
-    const match = url.match(regex);
-
-    if (match) {
-      return match[1];
-    } else {
-      return "No se encontro un ID valido en la URL";
-    }
+  handleDetail(url: string) {
+    const id = url.split('/').filter(part => part).pop(); 
+    this.router.navigate(['/pokemon', id]); 
   }
 
-  handleDetail(url: any) {
-    const pokemonId = this.obtenerIdDeUrl(url);
-    console.log(url);
-    //this.pokeService.getDetailPokemon(url).subscribe((data) => { });
-    this.router.navigateByUrl(`/detail/${pokemonId}`);
+  handleImage(item: any): string {
+    if (!item.url) return 'assets/default-image.png'; 
+  
+    
+    const id = item.url.split('/').filter((part: string) => part).pop();
+    
+    
+    return `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${id}.png`;
   }
 
 }
